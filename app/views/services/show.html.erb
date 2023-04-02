@@ -1,0 +1,26 @@
+<% provide(:title,"View") %>
+
+<h1><%= @service.name %></h1>
+<div class="container">
+     <% if  %>
+        <%= cl_image_tag(@service.image,:width=>350,height:350,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+    <% else %>
+        <%= cl_image_tag(no_rpqcih,:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+    <% end %>
+     <h3>Description:</h3>
+     <div class="card-body p-4 py-0 h-xs-440p  mb-3">
+        <div class="container">
+            <%= @service.service_details %>
+        </div>
+    </div>
+    <h4>Price: ₱<%= number_with_delimiter(@service.price) %></h4>
+    
+
+    <%# form %>
+    <%= form_with model:@user,url:service_path do |f| %>
+        <%= f.label:time %>
+    
+    <% end %>
+    
+
+</div>

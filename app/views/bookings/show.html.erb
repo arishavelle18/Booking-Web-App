@@ -1,0 +1,46 @@
+<% provide(:title,"View") %>
+
+<h1><%= @book.name %></h1>
+<div class="container">
+     <% if  %>
+        <%= cl_image_tag(@book.image,:width=>350,height:350,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+    <% else %>
+        <%= cl_image_tag(no_rpqcih,:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+    <% end %>
+     <h3>Description:</h3>
+     <div class="card-body p-4 py-0 h-xs-440p  mb-3">
+        <div class="container">
+            <%= @book.service_details %>
+        </div>
+    </div>
+    <h4>Price: ₱<%= number_with_delimiter(@book.price) %></h4>
+    
+
+    <%# form %>
+    <div class="container mb-5">
+        <%= form_with model:@appoint,url:book_path,data:{turbo:false} do |f| %>
+        <div class="mb-3">
+            <%= f.label:time %>
+            <%= f.time_field :time,class:"form-control" %>
+        </div>
+        <div class="mb-3">
+            <%= f.label:date %>
+            <%= f.date_field :date,class:"form-control"%>
+        </div>
+        <div class="mb-3">
+            <%= f.label :time_slot %>
+            <% slots = @book.slots.flat_map do |slot| %>
+                <% timeslots = Slot.generate_timeslots(slot.start_time, slot.end_time, slot.interval) %>
+                <% timeslots.map { |time| "#{time.strftime('%I:%M %p')} (#{slot.date})" } %>
+            <% end %>
+
+            <%= select_tag 'appoint[slot_id]', options_for_select(slots), class: 'form-control' %>
+        </div>
+        
+        <%= f.submit "Create Appointment" %>
+    <% end %>
+    </div>
+    
+    
+
+</div>
