@@ -24,11 +24,7 @@ index do
   end
   column :available_time,"Time" do |service|
     if !service.slots.empty?
-      slots = []
-      service.slots.each do |slot|
-        timeslots = Slot.generate_timeslots(slot.start_time, slot.end_time,slot.interval)
-        slots.concat(timeslots.map { |time| ["Time: #{time.strftime("%I:%M %p")} (#{slot.date})"] })
-      end
+      slots = service.slots.map{|c| ["#{c.start_time} to #{c.end_time}"]}
       select_tag "booking[slot_id]", options_for_select(slots), class: "form-control"
     else
       "No time has been set,Please set to Slot Section"
@@ -36,8 +32,9 @@ index do
   end
   column :available_date,"Date" do |service|
     if !service.slots.empty?
-      date = service.slots.map{|c| [c.date]}
-      select_tag "booking[date]", options_for_select(date), class: "form-control"
+      date = service.slots.map{|c| ["#{c.date}"]}
+      select_tag "booking[slot_id]", options_for_select(date), class: "form-control"
+
     else
       "No time has been set,Please set to Slot Section"
     end
@@ -88,12 +85,17 @@ show do
     end
     row :available_time,"Time" do |service|
       if !service.slots.empty?
-        slots = []
-        service.slots.each do |slot|
-          timeslots = Slot.generate_timeslots(slot.start_time, slot.end_time,slot.interval)
-          slots.concat(timeslots.map { |time| ["Time: #{time.strftime("%I:%M %p")}"] })
-        end
+        slots = service.slots.map{|c| ["#{c.start_time} to #{c.end_time}"]}
         select_tag "booking[slot_id]", options_for_select(slots), class: "form-control"
+      else
+        "No time has been set,Please set to Slot Section"
+      end
+    end
+    row :available_date,"Date" do |service|
+      if !service.slots.empty?
+        date = service.slots.map{|c| ["#{c.date}"]}
+        select_tag "booking[slot_id]", options_for_select(date), class: "form-control"
+  
       else
         "No time has been set,Please set to Slot Section"
       end
@@ -142,6 +144,27 @@ end
         redirect_to admin_service_path(@service),notice: 'Services was successfully created.'
       else
         render:new
+      end
+    end
+
+     # for adding cloudinary/image in the admin and editing info 
+     def update
+      @service = Service.find_by(id:params[:id])
+      if !params[:service][:image].content_type.start_with?('image/') && !params[:service][:image].nil?
+        @service.errors.add(:image, "The uploaded file is not an image.")
+        render :edit
+        return
+      end
+      Cloudinary::Uploader.destroy(@service.image) if params[:service][:image]
+      if @service.update(permitted_params[:service])
+        if !params[:service][:image].nil?
+          # check if the image is image file
+          result =  Cloudinary::Uploader.upload(params[:service][:image])
+          @service.update_attribute(:image,result["public_id"])
+        end
+        redirect_to admin_service_path(@service), notice: 'Product was successfully updated.'
+      else
+        render :edit
       end
     end
   end

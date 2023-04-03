@@ -2,6 +2,7 @@ class Service < ApplicationRecord
   belongs_to :admin_user
   belongs_to :category
   belongs_to :location
+  has_one :appointment
   has_many :slots, dependent: :delete_all
   has_many :adds_ons, dependent: :delete_all
 

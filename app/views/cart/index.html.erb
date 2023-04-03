@@ -1,0 +1,70 @@
+<%= provide(:title,"Cart") %>
+
+<h1>List of Appointment</h1>
+<p>Email: <%= @user.email%></p>
+<%= form_with model:@address,url:cart_path,method: :post,data:{turbo:false} do |f| %>
+    <%= f.label :street%>
+    <%= f.text_field :street%>
+    <br><br>
+    <%= f.label :barangay%>
+    <%= f.text_field :barangay%>
+    <br><br>
+    <%= f.label :city%>
+    <%= f.text_field :city%>
+    <br><br>
+    <%= f.label :province%>
+    <%= f.text_field :province%>
+    <br><br>
+    <%= f.label :postal_code%>
+    <%= f.number_field :province%>
+    <br><br>
+    <%= f.hidden_field :user_id,value:current_user.id %>
+    <%= f.submit "Add Address",class:"btn btn-success" %>
+    <br><br>
+
+
+<% end %>
+
+<%= link_to "Add Address","#",class:"btn btn-success" %>
+<div class="container">
+  <div class="row px-5 pt-5">
+    <% @carts.appointments.each do |cart| %>
+    <div class="col-md-4 mt-4 mt-sm-0 card-container">
+      <div class="card text-center product p-4 pt-5 border-0 h-100 rounded-0">
+        <% if  %>
+          <%= cl_image_tag(cart.service.image,:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+        <% else %>
+          <%= cl_image_tag(no_rpqcih,:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+        <% end %>
+         <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="card-body p-4 py-0 h-xs-440p">
+           
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    <%= cart.service.name %>
+                </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <h3 class="text-start">Details</h3>
+                        <p>Check In : <%= cart.check_in %></p>
+                        <p>Check Out : <%= cart.check_out %></p>
+                        <p>Status : <%= cart.status.capitalize %></p>
+                        <p>Number of Pax : <%= cart.number_of_pax %></p>
+                        <p>Check Out :<%= cart.check_out %></p>
+                        <%= link_to "Check Out",cart_new_path(cart.id),:class => "btn btn-success" %>
+                        <%= link_to "Delete","#",:class => "btn btn-danger"  %>
+                </div>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+

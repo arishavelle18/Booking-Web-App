@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   root "sessions#new"
   get "register/" => "users#new",as:"user"
   post "register/" => "users#create" 
+  
 
   # login
   get "login/" => "sessions#new",as:'login'
@@ -20,6 +21,12 @@ Rails.application.routes.draw do
   # services
   get "services/" => "services#index", as:"services"
   
-  get "booking/:id" => "bookings#show", as:"book"
-  post "booking/:id" => "bookings#create"
+  get "appoint/:id" => "appointments#show", as:"appoint"
+  post "appoint/:id" => "appointments#create"
+
+  # cart
+  get "cart/" => "cart#index" ,as:"cart"
+  get "cart/:id" =>"cart#new", as:"cart_new"
+  post "cart/:id" =>"cart#create"
+  post "cart" => "cart#add_address"
 end

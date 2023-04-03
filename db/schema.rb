@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_02_171531) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_03_181300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,14 +73,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_02_171531) do
   end
 
   create_table "appointments", force: :cascade do |t|
-    t.time "time"
-    t.date "date"
+    t.date "check_out"
     t.bigint "user_id", null: false
     t.bigint "cart_id", null: false
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "service_id", null: false
+    t.integer "number_of_pax"
+    t.date "check_in"
+    t.bigint "slot_id", null: false
     t.index ["cart_id"], name: "index_appointments_on_cart_id"
+    t.index ["service_id"], name: "index_appointments_on_service_id"
+    t.index ["slot_id"], name: "index_appointments_on_slot_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
 
@@ -113,6 +118,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_02_171531) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -158,14 +165,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_02_171531) do
   end
 
   create_table "slots", force: :cascade do |t|
-    t.time "start_time"
+    t.string "start_time"
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "service_id", null: false
     t.integer "interval"
     t.integer "slot_per_timeslot"
-    t.time "end_time"
+    t.string "end_time"
     t.index ["service_id"], name: "index_slots_on_service_id"
   end
 
@@ -181,11 +188,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_02_171531) do
   add_foreign_key "addresses", "users"
   add_foreign_key "adds_ons", "services"
   add_foreign_key "appointments", "carts"
+  add_foreign_key "appointments", "services"
+  add_foreign_key "appointments", "slots"
   add_foreign_key "appointments", "users"
   add_foreign_key "bookings", "addresses"
   add_foreign_key "bookings", "appointments"
   add_foreign_key "bookings", "payments"
   add_foreign_key "bookings", "services"
+  add_foreign_key "carts", "users"
   add_foreign_key "categories", "admin_users"
   add_foreign_key "services", "admin_users"
   add_foreign_key "services", "categories"

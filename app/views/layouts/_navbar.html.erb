@@ -12,12 +12,18 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="d-flex navbar-nav ms-auto mb-2 mb-lg-0">
-      
-      <% if logged_in? %>
+      <ul class="navbar-nav">
         <li class="nav-item">
           <%= link_to "Services",services_path,class:"nav-link" %>
         </li>
+        <li class="nav-item">
+          <%= link_to "Cart",cart_path,class:"nav-link" %>
+        </li>
+      </ul>
+      <ul class="d-flex navbar-nav ms-auto mb-2 mb-lg-0">
+      
+      <% if logged_in? %>
+        
         <li class="nav-item">
           <%= link_to "Logout",logout_path,method: :delete,class:"nav-link btn btn-outline-secondary",:onclick=> "return confirm('Are you sure you want to delete this post?')" %>
         </li>

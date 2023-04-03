@@ -19,5 +19,6 @@ module Assessment
     # config.time_zone = "Central Time (US & Canada)"
     config.time_zone = "Asia/Manila"
     config.eager_load_paths << Rails.root.join("app/services")
+    # config.time_format = "%I:%M %p"
   end
 end

@@ -2,6 +2,7 @@ class User < ApplicationRecord
 
     has_many :addresses, dependent: :delete_all
     has_many :appointments, dependent: :delete_all
+    has_many :carts
     has_secure_password
 
     # we make sure email store in downcase

@@ -12,10 +12,10 @@ ActiveAdmin.register Slot do
     attributes_table do
       row :id
       row :start_time,:sortable => :start_time do |slot|
-        slot.start_time.strftime("%I:%M %p") if !slot.start_time.nil?
+        Time.parse(slot.start_time).strftime("%H:%M:%S") if !slot.start_time.nil?
       end
       row :end_time,:sortable => :end_time do |slot|
-        slot.end_time.strftime("%I:%M %p") if !slot.end_time.nil?
+        Time.parse(slot.end_time).strftime("%H:%M:%S") if !slot.end_time.nil?
       end
       row :interval
       row :slot_per_timeslot
@@ -31,11 +31,13 @@ ActiveAdmin.register Slot do
   index do
     selectable_column
         id_column
+        # .strftime("%I:%M %p") 
         column :start_time,:sortable => :start_time do |slot|
-          slot.start_time.strftime("%I:%M %p") if !slot.start_time.nil?
+          Time.parse(slot.start_time).strftime("%H:%M:%S") if !slot.start_time.nil?
         end
+        # .
         column :end_time,:sortable => :end_time do |slot|
-          slot.end_time.strftime("%I:%M %p") if !slot.end_time.nil?
+          Time.parse(slot.end_time).strftime("%H:%M:%S") if !slot.end_time.nil?
         end
         column :interval
         column :slot_per_timeslot
@@ -54,10 +56,13 @@ ActiveAdmin.register Slot do
       f.input :end_time,as: :time_picker
       f.input :slot_per_timeslot
       f.input :interval
-      f.input :service_id,as:"select",label:"Services",collection:Service.all.map{ |c| [c.service_details,c.id]}
+      f.input :service_id,as:"select",label:"Services",collection:Service.all.map{ |c| [c.name,c.id]}
     end
     f.actions
   end
+
+  
+
   #
   # or
   #
