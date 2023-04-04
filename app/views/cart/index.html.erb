@@ -27,8 +27,13 @@
 <%= link_to "Add Address",address_path,class:"btn btn-success mb-3" %> 
 
 
+
+  
+
+
 <div class="container">
   <div class="row px-5 pt-5">
+  <% if !@carts.nil? %>
     <% @carts.appointments.each do |cart| %>
     <div class="col-md-4 mt-4 mt-sm-0 card-container">
       <div class="card text-center product p-4 pt-5 border-0 h-100 rounded-0">
@@ -64,6 +69,7 @@
         </div>
         </div>
     </div>
+    <% end %>
     <% end %>
   </div>
 </div>
