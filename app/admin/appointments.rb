@@ -13,10 +13,13 @@ index do
   column:check_in
   column:check_out
   column:status
-  column:timeslot,label:"Appoointment" do |appoint|
+  column:timeslot,label:"Appointment" do |appoint|
     "#{Time.parse(appoint.slot.start_time).strftime("%I:%M %p")} to #{Time.parse(appoint.slot.end_time).strftime("%H:%M:%S")}"
   end
   column:number_of_pax
+  column:service_id,label:"Service" do |appoint|
+    link_to appoint.service.name,admin_service_path(appoint.service_id)
+end
   actions
 end
 show do
@@ -27,6 +30,9 @@ show do
     row:status
     row:timeslot,label:"Appoointment" do |appoint|
       "#{Time.parse(appoint.slot.start_time).strftime("%I:%M %p")} to #{Time.parse(appoint.slot.end_time).strftime("%H:%M:%S")}"
+    end
+    row:service_id,label:"Service" do |appoint|
+        link_to appoint.service.name,admin_service_path(appoint.service_id)
     end
     row:number_of_pax
   end

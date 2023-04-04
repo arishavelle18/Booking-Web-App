@@ -1,16 +1,29 @@
 class CartController < ApplicationController
     before_action :require_login
     def index
-        @carts = Cart.find_by(user_id:current_user.id)
         
+        @carts = Cart.find_by(user_id:current_user.id)
+        @appoint = @carts.appointments if !@carts.nil?
+        if !params[:filter].nil? && !params[:filter].blank?
+            @carts = Cart.find_by(user_id:current_user.id)
+            @appoint = @carts.appointments.where(status: params[:filter])
+            # render plain:@appoint
+        elsif params[:filter].blank?
+            @carts = Cart.find_by(user_id:current_user.id)
+        end     
         @user = User.find(current_user.id)
         @address = @user.addresses
        
     end
 
     def new
+        
         @booking = Booking.new
         @appoint = Appointment.find_by(id:params[:id])
+        if @appoint.status == "check out"
+            flash[:danger] = "Invalid Check out"
+            redirect_to cart_path
+        end
         @address = @appoint.user.addresses
         @booking.build_payment
 
@@ -48,6 +61,20 @@ class CartController < ApplicationController
 
     end
 
+    def cancel
+        @cart = Appointment.find_by(id:params[:id],status:"pending")
+        
+        if @cart
+          @cart.status = "cancel"
+          @cart.save
+          flash[:success] = "Cancel Service Successfuly."
+          redirect_to cart_path
+        else
+           flash[:danger] = "Invalid Access"
+            redirect_to cart_path
+        end
+      
+      end
 
     private
 

@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
     before_action :check_if_booked
     before_action :is_full
+    before_action :is_expire
     def show
         @book = Service.find_by(id:params[:id])
         
@@ -11,6 +12,23 @@ class AppointmentsController < ApplicationController
       end
 
     def create
+        # get the max slot 
+        @max_slot = Service.where(id:params[:id])
+
+        # render plain:@max_slot.inspect
+        @appointment = Appointment.where(service_id: params[:id]).where("status = ? OR status = ?", "pending", "check out")
+        if @appointment
+          total_pax = @appointment.sum(:number_of_pax) + (params[:appointment][:number_of_pax]).to_i
+          if total_pax > @max_slot[0].slots.sum(:slot_per_timeslot)
+            flash[:warning] = "Not enough slot that suit the number of pax."
+            # render plain:total_pax
+            redirect_to appoint_path(params[:id])
+            return
+          end
+        end
+        
+        # render plain: @total_pax
+
         @cart = Cart.find_or_create_by(user_id: current_user.id)
         params[:appointment][:cart_id] = @cart.id
 
@@ -28,6 +46,8 @@ class AppointmentsController < ApplicationController
         end
     end
 
+    
+
     private 
     def appoint_params
       params.require(:appointment).permit(:check_in,:check_out,:slot_id,:status,:number_of_pax,:user_id,:cart_id,:service_id)
@@ -43,18 +63,28 @@ class AppointmentsController < ApplicationController
     
     # check if the services is full
     private def is_full
-        checker = Appointment.where(service_id: params[:id])
+        checker = Appointment.where(service_id: params[:id]).where("status = ? OR status = ?", "pending", "check out")
         if checker
-            appoint_count = Appointment.find_by(service_id:params[:id])
-    
-            if !appoint_count.nil? && checker.count == appoint_count.slot.slot_per_timeslot
+            appoint_count = Service.where(id:params[:id])
+            # render plain:appoint_count.inspect
+            if !appoint_count.nil? && checker.sum(&:number_of_pax) == appoint_count[0].slots.sum(:slot_per_timeslot)
                 flash[:danger] = "Service is already Full !!!"
                 redirect_to services_path
             end
         end
         
     end
-
+    private def is_expire
+      # render plain:params
+      checker = Service.where(id: params[:id]).where("created_at < ?",Date.current)
+      if !checker.empty?
+       
+          flash[:danger] = "Service is already expired !!!"
+          redirect_to services_path
+       
+      end
+      
+    end
 
 
 

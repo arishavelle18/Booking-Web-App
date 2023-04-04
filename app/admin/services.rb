@@ -5,7 +5,7 @@ ActiveAdmin.register Service do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :service_details, :image, :price, :admin_user_id, :category_id, :location_id
+  permit_params :name, :service_details, :image, :price, :admin_user_id, :category_id, :location_id,:created_at
 
 
 index do
@@ -49,6 +49,7 @@ index do
     end
     
   end
+  column :created_at
   actions
 end
 
@@ -110,6 +111,7 @@ end
     f.inputs do 
       f.input :name
       f.input :service_details
+      f.input :created_at
       if f.object.image.present?
         f.input :image, as: :file, hint: cl_image_tag(f.object.image , :width=>200, :crop=>"fill")
       else

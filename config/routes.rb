@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   post "cart/:id" =>"cart#create"
   delete "cart/:id/delete" => "cart#destroy", as:"cart_delete"
   get "cart/:id/delete" => "cart#destroy"
+  get "cart/:id/cancel" => "cart#cancel", as:"cart_cancel"
 
 
   get  "add_address/" => "addresses#new",as:"address"

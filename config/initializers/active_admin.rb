@@ -17,7 +17,9 @@ ActiveAdmin.setup do |config|
   # Note: Aim for an image that's 21px high so it fits in the header.
   #
   # config.site_title_image = "logo.png"
-
+  
+config.register_javascript 'https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.js'
+config.register_stylesheet 'https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.css'
   # == Default Namespace
   #
   # Set the default namespace each administration resource

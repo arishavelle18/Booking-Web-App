@@ -32,7 +32,7 @@
         <% end %>
     <%= f.select :address_id, options_for_select(selection), prompt: 'Select a time' %>
     <br><br>
-    Total Amount: <%= "The total amount for three people is  ₱#{number_with_delimiter(@appoint.service.price * @appoint.number_of_pax * (@appoint.check_out - @appoint.check_in ).to_i)}" %>
+    Total Amount: <%= "The total amount for three people is  ₱#{number_with_delimiter(@appoint.service.price * @appoint.number_of_pax * (@appoint.check_out == @appoint.check_in ? 1 :  @appoint.check_out - @appoint.check_in ).to_i)}" %>
     <br><br>
     <br>
 
