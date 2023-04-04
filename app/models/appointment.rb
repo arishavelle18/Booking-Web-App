@@ -7,6 +7,7 @@ class Appointment < ApplicationRecord
   has_many :bookings, dependent: :delete_all
   validates_presence_of :check_in,:check_out
   # validates :status,presence:true
+  validates :number_of_pax, presence:true
 
   validate :check_in_must_not_be_greater_than_check_out
 

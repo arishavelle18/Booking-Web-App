@@ -3,7 +3,7 @@
 <h1>Check Out Process</h1>
 
 <%= form_with model:@booking,url:cart_new_path,data:{turbo:false} do |f| %>
-
+    <%= render partial:"layouts/error_message",locals:{objects:@booking} %>
     <%= f.label :first_name %>
     <%= f.text_field :first_name %>
     <br><br>
@@ -16,18 +16,29 @@
     <%= f.label :contact_number %>
     <%= f.text_field :contact_number %>
     <br><br>
-     <%= f.label :mode_of_payment %>
-  <%= f.select :payment_id, options_for_select([['Pay At Store', 'Pay Onsite'], ['Pay via Bank Payment', 'Pay via Bank Payment']]), prompt: 'Select mode of Payment' %>
+     <%= f.label :pay_method %>
+     <%= f.fields_for :payment do |payment_form| %>
+
+     <%= payment_form.hidden_field :amount,value:@appoint.service.price * @appoint.number_of_pax %>
+  
+    <%= payment_form.select :pay_method, options_for_select([['Pay At Store', 'Pay Onsite'], ['Pay via Bank Payment', 'Pay via Bank Payment']], selected: 'Pay Onsite'), prompt: 'Select mode of Payment' %>
+    <% end %>
     <br><br>
+
+    <%= f.label :address_id %>
     <% selection=[] %>
         <% @address.each do |address| %>
             <% selection.push(["#{address.street} to #{address.barangay} #{address.city} #{address.province} (Postal Code: #{address.postal_code})",address.id]) %>
         <% end %>
-    <%= f.select :slot_id, options_for_select(selection), prompt: 'Select a time' %>
+    <%= f.select :address_id, options_for_select(selection), prompt: 'Select a time' %>
     <br><br>
+    Total Amount: <%= "The total amount for three people is  ₱#{number_with_delimiter(@appoint.service.price * @appoint.number_of_pax * (@appoint.check_out - @appoint.check_in ).to_i)}" %>
+    <br><br>
+    <br>
+
     <%= f.submit "Check out" %>
     <%= f.hidden_field :service_id,value:@appoint.service_id %>
-    <%#= f.hidden_field :address_id,value:@appoint.address_id %>
+  
     <%= f.hidden_field :appointment_id,value:@appoint.id %>
 
 

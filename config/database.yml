@@ -85,6 +85,4 @@ test:
 #
 production:
   <<: *default
-  database: assessment_production
-  username: assessment
-  password: <%= ENV["ASSESSMENT_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>

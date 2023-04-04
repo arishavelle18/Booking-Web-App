@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   get "cart/" => "cart#index" ,as:"cart"
   get "cart/:id" =>"cart#new", as:"cart_new"
   post "cart/:id" =>"cart#create"
+  delete "cart/:id/delete" => "cart#destroy", as:"cart_delete"
+  get "cart/:id/delete" => "cart#destroy"
+
+
   get  "add_address/" => "addresses#new",as:"address"
   post "add_address/" => "addresses#create"
   get "edit_address/:id" => "addresses#edit", as: "edit_address"

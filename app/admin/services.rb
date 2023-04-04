@@ -150,7 +150,7 @@ end
      # for adding cloudinary/image in the admin and editing info 
      def update
       @service = Service.find_by(id:params[:id])
-      if !params[:service][:image].content_type.start_with?('image/') && !params[:service][:image].nil?
+      if params[:service][:image].present? && !params[:service][:image].content_type.start_with?('image/')
         @service.errors.add(:image, "The uploaded file is not an image.")
         render :edit
         return

@@ -5,7 +5,7 @@ ActiveAdmin.register Slot do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :start_time,:end_time, :date, :interval,:slot_per_timeslot,:service_id
+  permit_params :start_time,:end_time, :date,:slot_per_timeslot,:service_id
 
 
   show do
@@ -17,7 +17,6 @@ ActiveAdmin.register Slot do
       row :end_time,:sortable => :end_time do |slot|
         Time.parse(slot.end_time).strftime("%H:%M:%S") if !slot.end_time.nil?
       end
-      row :interval
       row :slot_per_timeslot
       row :date
       row :service_id,label:"Service" do |slot|
@@ -33,13 +32,12 @@ ActiveAdmin.register Slot do
         id_column
         # .strftime("%I:%M %p") 
         column :start_time,:sortable => :start_time do |slot|
-          Time.parse(slot.start_time).strftime("%H:%M:%S") if !slot.start_time.nil?
+          Time.parse(slot.start_time).strftime("%I:%M %p") if !slot.start_time.nil?
         end
         # .
         column :end_time,:sortable => :end_time do |slot|
-          Time.parse(slot.end_time).strftime("%H:%M:%S") if !slot.end_time.nil?
+          Time.parse(slot.end_time).strftime("%I:%M %p") if !slot.end_time.nil?
         end
-        column :interval
         column :slot_per_timeslot
         column :date
         column :service_id,label:"Service" do |slot|
@@ -55,7 +53,6 @@ ActiveAdmin.register Slot do
       f.input :start_time, as: :time_picker
       f.input :end_time,as: :time_picker
       f.input :slot_per_timeslot
-      f.input :interval
       f.input :service_id,as:"select",label:"Services",collection:Service.all.map{ |c| [c.name,c.id]}
     end
     f.actions
