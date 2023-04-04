@@ -1,18 +1,18 @@
 databases:
-  - name: micronaut
-    databaseName: micronaut_ozey
-    user: micronaut_ozey_user
+  - name: booking
+    databaseName: booking_wstv
+    user: booking_wstv_user
 
 services:
   - type: web
-    name: bidding
+    name: booking
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: micronaut
+          name: booking
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
