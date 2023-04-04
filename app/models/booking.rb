@@ -7,5 +7,6 @@ class Booking < ApplicationRecord
   has_many :add_on_books,dependent: :delete_all
   accepts_nested_attributes_for :payment
   
+  
  
 end

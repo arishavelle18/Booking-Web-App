@@ -17,21 +17,21 @@ class CartController < ApplicationController
     end
 
     def new
-        
         @booking = Booking.new
         @appoint = Appointment.find_by(id:params[:id])
-        if @appoint.status == "check out"
+        if @appoint.status == "check out" || @appoint.status == "cancel"
             flash[:danger] = "Invalid Check out"
             redirect_to cart_path
         end
+        @adds_ons = AddsOn.where(service_id:@appoint.service_id) || nil
         @address = @appoint.user.addresses
         @booking.build_payment
+       
 
     end
 
     def create
         @booking = Booking.new(book_params)
-        
         
         if @booking.save
             flash[:success] = "Successfully Check out"
