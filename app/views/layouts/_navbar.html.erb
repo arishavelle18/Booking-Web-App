@@ -13,13 +13,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+      <% if logged_in? %>
         <li class="nav-item">
           <%= link_to "Services",services_path,class:"nav-link" %>
         </li>
         <li class="nav-item">
           <%= link_to "Cart",cart_path,class:"nav-link" %>
         </li>
+         <% end %>
       </ul>
+      
+     
+      
       <ul class="d-flex navbar-nav ms-auto mb-2 mb-lg-0">
       
       <% if logged_in? %>

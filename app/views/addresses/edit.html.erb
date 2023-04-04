@@ -1,0 +1,35 @@
+<% provide(:title,"Add Address") %>
+
+<h1>Edit Address</h1>
+
+
+<%= form_with model:@address,url:edit_address_path,method: :patch,data:{turbo:false} do |f| %>
+    <%= render partial:"layouts/error_message",locals:{objects:@address} %>
+    <div class="mb-3">
+        <%= f.label :street%>
+        <%= f.text_field :street,class:"form-control"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :barangay%>
+        <%= f.text_field :barangay,class:"form-control"%>
+    </div>
+
+    <div class="mb-3">
+        <%= f.label :city%>
+        <%= f.text_field :city ,class:"form-control"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :province%>
+        <%= f.text_field :province ,class:"form-control"%>
+    </div>
+   <div class="mb-3">
+        <%= f.label :postal_code%>
+        <%= f.number_field :postal_code ,class:"form-control"%>
+    </div>
+    
+    <%= f.hidden_field :user_id,value:current_user.id %>
+    <%= f.submit "Add Address",class:"btn btn-success" %>
+    <br><br>
+
+
+<% end %>

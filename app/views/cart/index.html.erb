@@ -2,30 +2,30 @@
 
 <h1>List of Appointment</h1>
 <p>Email: <%= @user.email%></p>
-<%= form_with model:@address,url:cart_path,method: :post,data:{turbo:false} do |f| %>
-    <%= f.label :street%>
-    <%= f.text_field :street%>
-    <br><br>
-    <%= f.label :barangay%>
-    <%= f.text_field :barangay%>
-    <br><br>
-    <%= f.label :city%>
-    <%= f.text_field :city%>
-    <br><br>
-    <%= f.label :province%>
-    <%= f.text_field :province%>
-    <br><br>
-    <%= f.label :postal_code%>
-    <%= f.number_field :province%>
-    <br><br>
-    <%= f.hidden_field :user_id,value:current_user.id %>
-    <%= f.submit "Add Address",class:"btn btn-success" %>
-    <br><br>
+<div class="accordion accordion-flush mb-3" id="accordionFlushExample">
+ <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        View your Address
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+        <% @address.each do |address| %>
+          <ul class="list-group">
+            <li class="list-group-item mb-2"><%= "#{address.street} #{address.barangay} #{address.city} #{address.province}" %> 
+            <%= link_to "Edit",edit_address_path(address),class:"btn  btn-outline-primary"%>
+            <%= link_to "Delete",address_delete_path(address),class:"btn btn-outline-danger",:onclick => "return confirm('Are you sure you want to delete this address?')"%>
+            </li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  </div>
 
 
-<% end %>
-
-<%= link_to "Add Address","#",class:"btn btn-success" %>
+<%= link_to "Add Address",address_path,class:"btn btn-success" %>
 <div class="container">
   <div class="row px-5 pt-5">
     <% @carts.appointments.each do |cart| %>

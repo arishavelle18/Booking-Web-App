@@ -16,13 +16,18 @@
     <%= f.label :contact_number %>
     <%= f.text_field :contact_number %>
     <br><br>
-     <%= f.label :role %>
+     <%= f.label :mode_of_payment %>
   <%= f.select :payment_id, options_for_select([['Pay At Store', 'Pay Onsite'], ['Pay via Bank Payment', 'Pay via Bank Payment']]), prompt: 'Select mode of Payment' %>
     <br><br>
+    <% selection=[] %>
+        <% @address.each do |address| %>
+            <% selection.push(["#{address.street} to #{address.barangay} #{address.city} #{address.province} (Postal Code: #{address.postal_code})",address.id]) %>
+        <% end %>
+    <%= f.select :slot_id, options_for_select(selection), prompt: 'Select a time' %>
+    <br><br>
     <%= f.submit "Check out" %>
-
     <%= f.hidden_field :service_id,value:@appoint.service_id %>
-    <%= f.hidden_field :address_id,value:@appoint.address_id %>
+    <%#= f.hidden_field :address_id,value:@appoint.address_id %>
     <%= f.hidden_field :appointment_id,value:@appoint.id %>
 
 
