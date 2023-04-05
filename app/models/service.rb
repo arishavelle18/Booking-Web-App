@@ -6,6 +6,9 @@ class Service < ApplicationRecord
   has_many :slots, dependent: :delete_all
   has_many :adds_ons, dependent: :delete_all
 
+
+  
+
   def generate_time_slots(service)
     slots = []
     service.slots.each do |slot|

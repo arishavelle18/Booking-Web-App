@@ -1,4 +1,5 @@
 class BookingsController < ApplicationController
+  before_action :require_login
   def show
     @book = Service.find_by(id:params[:id])
     @appointment = Appointment.new

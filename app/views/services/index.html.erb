@@ -19,12 +19,19 @@
             <%= service.name %>
           </h5>
           <p class="price">₱<%= number_with_delimiter(service.price) %></p>
+          <p><strong>Availabel Slot/s : </strong><%= service.slots.sum(:slot_per_timeslot) - Appointment.where(service_id: service.id).where("status = ? OR status = ?", "pending", "check out").sum(&:number_of_pax) %></p>
         </div>
         <p class="btn w-100 px-4 mx-auto">
-          
-          
-          
+        <p>Category</p>
+        
+        <% if  service.slots.sum(:slot_per_timeslot) - Appointment.where(service_id: service.id).where("status = ? OR status = ?", "pending", "check out").sum(&:number_of_pax) != 0 %>
           <%= link_to "Book Now",appoint_path(service),class:"btn btn-dark btn-lg w-100" %>
+        <% else %>
+          <%= link_to "No Available Slot",appoint_path(service),class:"btn btn-dark btn-lg w-100" %>
+        <% end %>
+        
+          
+          
         </p>
       </div>
     </div>

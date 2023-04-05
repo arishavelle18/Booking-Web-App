@@ -9,6 +9,43 @@ ActiveAdmin.register_page "Dashboard" do
         small I18n.t("active_admin.dashboard_welcome.call_to_action")
       end
     end
+    columns do
+      column do
+        panel "Total Registrations" do
+          div class: "blank_slate_container" do
+            span class: "blank_slate" do
+              span "Total Registrations:"
+              span User.all.count
+            end
+          end
+        end
+      end
+      # Add other dashboard sections here
+    end
+    columns do
+      column do
+        panel "Total Books" do
+          div class: "blank_slate_container" do
+            span class: "blank_slate" do
+              span "Total Booking:"
+              span Booking.all.count
+            end
+          end
+        end
+      end
+
+      # Add other dashboard sections here
+    end
+    section "Most Booked Services" do
+    table_for Service.joins(:appointment)
+      .where(appointments: { status: ['check out', 'pending'] })
+      .group("services.id")
+      .order("count(appointments.id) DESC")
+      .limit(2) do
+        column("Service") { |service| service.name }
+        column("Number of Appointments") { |service| Appointment.where(service_id:service.id,status: ['pending', 'check out']).sum(:number_of_pax) }
+      end
+  end
 
     # Here is an example of a simple dashboard with columns and panels.
     #

@@ -1,4 +1,5 @@
 class AppointmentsController < ApplicationController
+    before_action :require_login
     before_action :check_if_booked
     before_action :is_full
     before_action :is_expire

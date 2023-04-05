@@ -7,6 +7,13 @@ ActiveAdmin.register Appointment do
   #
   permit_params :check_in, :check_out, :status, :slot_id,:number_of_pax,:user_id,:service_id
 
+  scope :all, default: true
+  scope :pending, -> { Appointment.pending }
+  scope :check_out, -> { Appointment.check_out }
+  scope :cancel, -> { Appointment.cancel }
+
+
+
 
 index do
   id_column

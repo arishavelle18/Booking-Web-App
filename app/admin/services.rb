@@ -8,6 +8,7 @@ ActiveAdmin.register Service do
   permit_params :name, :service_details, :image, :price, :admin_user_id, :category_id, :location_id,:created_at
 
 
+
 index do
   selectable_column
   id_column

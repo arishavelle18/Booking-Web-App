@@ -4,54 +4,69 @@
 
 <%= form_with model:@booking,url:cart_new_path,data:{turbo:false} do |f| %>
     <%= render partial:"layouts/error_message",locals:{objects:@booking} %>
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name %>
-    <br><br>
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name %>
-    <br><br>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-    <br><br>
-    <%= f.label :contact_number %>
-    <%= f.text_field :contact_number %>
-    <br><br>
-     <%= f.label :pay_method %>
-     <%= f.fields_for :payment do |payment_form| %>
+    <div class="mb-3">
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name ,class:"form-control"%>
+    </div>
+    <div class="mb-3">
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name ,class:"form-control"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :email %>
+        <%= f.email_field :email ,class:"form-control"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :contact_number %>
+        <%= f.text_field :contact_number ,class:"form-control"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :pay_method %>
+        <%= f.fields_for :payment do |payment_form| %>
 
-     <%= payment_form.hidden_field :amount,value:@appoint.service.price * @appoint.number_of_pax %>
-  
-    <%= payment_form.select :pay_method, options_for_select([['Pay At Store', 'Pay Onsite'], ['Pay via Bank Payment', 'Pay via Bank Payment']], selected: 'Pay Onsite'), prompt: 'Select mode of Payment' %>
-    <% end %>
-    <br><br>
-
-    <%= f.label :address_id %>
-    <% selection=[] %>
-        <% @address.each do |address| %>
-            <% selection.push(["#{address.street} to #{address.barangay} #{address.city} #{address.province} (Postal Code: #{address.postal_code})",address.id]) %>
-        <% end %>
-    <%= f.select :address_id, options_for_select(selection), prompt: 'Select a time' %>
-    <br><br>
-    Total Amount: <%= "The total amount for three people is  ₱#{number_with_delimiter(@appoint.service.price * @appoint.number_of_pax * (@appoint.check_out == @appoint.check_in ? 1 :  @appoint.check_out - @appoint.check_in ).to_i)}" %>
-    <br><br>
-    <br>
-
-    <%= f.submit "Check out" %>
-    <%= f.hidden_field :service_id,value:@appoint.service_id %>
-  
-    <%= f.hidden_field :appointment_id,value:@appoint.id %>
-
+        <%= payment_form.hidden_field :amount,value:@appoint.service.price * @appoint.number_of_pax %>
     
-    <% if !@adds_ons.nil?%>
+        <%= payment_form.select :pay_method, options_for_select([['Pay At Store', 'Pay Onsite'], ['Pay via Bank Payment', 'Pay via Bank Payment']], selected: 'Pay Onsite'), prompt: 'Select mode of Payment' %>
+        <% end %>
+    </div>
+     <div class="mb-3">
+        <%= f.label :address_id %>
+        <% selection=[] %>
+            <% @address.each do |address| %>
+                <% selection.push(["#{address.street} to #{address.barangay} #{address.city} #{address.province} (Postal Code: #{address.postal_code})",address.id]) %>
+            <% end %>
+        <%= f.select :address_id, options_for_select(selection), prompt: 'Select a time' %>
+    </div>
+   <div class="mb-3">
+         Total Amount: <%= "The total amount for three people is  ₱#{number_with_delimiter(@appoint.service.price * @appoint.number_of_pax * (@appoint.check_out == @appoint.check_in ? 1 :  @appoint.check_out - @appoint.check_in ).to_i)}" %>
+    </div>
+
+    <div class="mb-3">
+         <% if !@adds_ons.nil?%>
         <%= f.fields_for :add_on_book do |add_on_book_form| %>
         <% add_on =[] %>
             <% @adds_ons.each do |adds_on| %>
                 <% add_on.push([adds_on.name,adds_on.id]) %>
             <% end %>
-        <%= add_on_book_form.select :adds_on_id, options_for_select(add_on), prompt: 'Select a time' %>
+        <%= f.label :adds_on_id %>
+        <%= add_on_book_form.select :adds_on_id, options_for_select(add_on), prompt: 'Select a Adds On' %>
         
         <% end %>
-    <% end %>
+        <% end %>
+    </div>
+
+
+    <div class="mb-3">
+         <%= f.submit "Check out" %>
+    </div>
+
+   
+    <%= f.hidden_field :service_id,value:@appoint.service_id %>
+  
+    <%= f.hidden_field :appointment_id,value:@appoint.id %>
+
+    
+    
     
 
 
