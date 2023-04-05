@@ -19,7 +19,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password
       f.input :password_confirmation
-    end
+    end 
     f.actions
   end
 

@@ -13,7 +13,13 @@ ActiveAdmin.register Appointment do
   scope :cancel, -> { Appointment.cancel }
 
 
-
+  filter :status, as: :select, collection: [["Pending","pending"],["Cancel","cancel"],["Check Out","check out" ]]
+  filter :check_in, as: :date_range
+  filter :check_out, as: :date_range
+  filter :number_of_pax, as: :numeric
+  filter :created_at, as: :date_range
+  filter :updated_at, as: :date_range
+  filter :number_of_pax, as: :numeric
 
 index do
   id_column
