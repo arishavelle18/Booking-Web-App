@@ -104,7 +104,7 @@ end
         render :edit
         return
       end
-      Cloudinary::Uploader.destroy(@category.image) if params[:category][:image]
+      Cloudinary::Uploader.destroy(@category.image) if !params[:category][:image].nil? && !@category.image.nil?
       if @category.update(permitted_params[:category])
         if !params[:category][:image].nil?
           # check if the image is image file

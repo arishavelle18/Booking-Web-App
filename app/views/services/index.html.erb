@@ -23,9 +23,11 @@
         </div>
         <p class="btn w-100 px-4 mx-auto">
         <p>Category</p>
-
-        <% if !@category.nil? %>
-            <%= cl_image_tag(@category.image,:width=>200,height:200,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+    
+        <% if @services[0].category.image != nil %>
+            <%= cl_image_tag(Category.find_by(id:@services[0].category_id).image,:width=>200,height:200,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+        <% else %>
+          <%= cl_image_tag("no_rpqcih",:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
         <% end %>
         
         <% if  service.slots.sum(:slot_per_timeslot) - Appointment.where(service_id: service.id).where("status = ? OR status = ?", "pending", "check out").sum(&:number_of_pax) != 0 %>
