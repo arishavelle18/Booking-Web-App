@@ -8,7 +8,7 @@
     <div class="col-md-4 mt-4 mt-sm-0 card-container">
       <div class="card text-center product p-4 pt-5 border-0 h-100 rounded-0">
         
-        <% if  %>
+        <% if !service.image.nil? %>
           <%= cl_image_tag(service.image,:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
         <% else %>
           <%= cl_image_tag(no_rpqcih,:width=>500,height:500,:crop => "fill",class:"img-fluid d-block mx-auto") %>
@@ -23,6 +23,10 @@
         </div>
         <p class="btn w-100 px-4 mx-auto">
         <p>Category</p>
+
+        <% if !@category.nil? %>
+            <%= cl_image_tag(@category.image,:width=>200,height:200,:crop => "fill",class:"img-fluid d-block mx-auto") %>
+        <% end %>
         
         <% if  service.slots.sum(:slot_per_timeslot) - Appointment.where(service_id: service.id).where("status = ? OR status = ?", "pending", "check out").sum(&:number_of_pax) != 0 %>
           <%= link_to "Book Now",appoint_path(service),class:"btn btn-dark btn-lg w-100" %>
