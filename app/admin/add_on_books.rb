@@ -5,7 +5,16 @@ ActiveAdmin.register AddOnBook do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :name, :description, :amount, :booking_id
+  permit_params :name, :description, :amount, :booking_id
+
+
+  filter :name, filters: [:contains]
+  filter :description, filters: [:contains]
+  filter :amount, filters: [:equals]
+  filter :created_at, label: 'Created At (From)', as: :date_range, filters: [:between]
+  filter :updated_at, label: 'Updated At (From)', as: :date_range, filters: [:between]
+
+
   #
   # or
   #

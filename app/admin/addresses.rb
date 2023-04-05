@@ -21,7 +21,15 @@ ActiveAdmin.register Address do
     f.actions
   end
 
-
+  filter :id
+  filter :user_id, as: :select, collection: User.all.map { |user| [user.id, user.id] }
+  filter :street, as: :string, label: "Street (Contains)"
+  filter :barangay, as: :string, label: "Barangay (Contains)"
+  filter :city, as: :string, label: "City (Contains)"
+  filter :province, as: :string, label: "Province (Contains)"
+  filter :postal_code, as: :string, label: "Postal Code (Contains)"
+  filter :created_at, label: "Created At (From)", as: :date_range
+  filter :updated_at, label: "Updated At (From)", as: :date_range
   #
   # or
   #

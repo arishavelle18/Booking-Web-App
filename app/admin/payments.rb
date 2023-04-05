@@ -5,8 +5,11 @@ ActiveAdmin.register Payment do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :amount, :method
-  #
+  permit_params :amount, :method  
+
+  filter :amount_equals, label: "Amount"
+  filter :pay_method_contains, label: "Pay Method"
+  filter :created_at, label: "Created At"
   # or
   #
   # permit_params do

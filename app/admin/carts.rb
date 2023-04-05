@@ -5,7 +5,8 @@ ActiveAdmin.register Cart do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params 
+  permit_params :user_id
+  filter :user_id, as: :select, collection: User.all.map { |user| [user.email, user.id] }
   #
   # or
   #

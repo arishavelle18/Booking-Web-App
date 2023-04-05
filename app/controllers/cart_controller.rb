@@ -115,4 +115,7 @@ class CartController < ApplicationController
     def adds_on_params
         params.require(:add_on_book).permit(:name,:description,:amount, :booking_id)
     end
+
+
+
 end

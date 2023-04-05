@@ -7,7 +7,14 @@ ActiveAdmin.register Service do
   #
   permit_params :name, :service_details, :image, :price, :admin_user_id, :category_id, :location_id,:created_at
 
-
+  filter :name_cont, label: "Name"
+  filter :price_eq, label: "Price"
+  filter :category, collection: -> { Category.all.map { |c| [c.name, c.id] } }, label: "Category"
+  filter :location_id, as: :select, collection: Location.all.map { |address| ["#{address.street} #{address.barangay} #{address.city} #{address.province}", address.id] }
+  filter :service_details_cont, label: "Service Details"
+  filter :image_cont, label: "Image"
+  filter :created_at, label: "Created At"
+  filter :updated_at, label: "Updated At"
 
 index do
   selectable_column

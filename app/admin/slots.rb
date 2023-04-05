@@ -8,6 +8,16 @@ ActiveAdmin.register Slot do
   permit_params :start_time,:end_time, :date,:slot_per_timeslot,:service_id
 
 
+filter :id
+filter :service_id, as: :select, collection: Service.all.map { |service| [service.name, service.id] }
+filter :start_time, as: :string, label: "Start Time (hh:mm)"
+filter :date, as: :date_range
+filter :created_at, as: :date_range
+filter :updated_at, as: :date_range
+filter :slot_per_timeslot
+filter :end_time, as: :string, label: "End Time (hh:mm)"
+
+
   show do
     attributes_table do
       row :id

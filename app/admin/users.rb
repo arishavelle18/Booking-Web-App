@@ -8,7 +8,10 @@ ActiveAdmin.register User do
   permit_params :full_name, :email, :password,:password_confirmationn
 
   # insert form 
-
+  filter :id
+  filter :email
+  filter :created_at
+  filter :updated_at
   form do |f|
     f.semantic_errors *f.object.errors.attribute_names
     f.inputs do

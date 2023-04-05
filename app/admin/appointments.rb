@@ -19,6 +19,9 @@ index do
   id_column
   column:check_in
   column:check_out
+  column:user_id,label:"User" do |appoint|
+    link_to appoint.user.email,admin_user_path(appoint.user.id)
+  end
   column:status
   column:timeslot,label:"Appointment" do |appoint|
     "#{Time.parse(appoint.slot.start_time).strftime("%I:%M %p")} to #{Time.parse(appoint.slot.end_time).strftime("%H:%M:%S")}"
@@ -34,6 +37,9 @@ show do
     row :id
     row:check_in
     row:check_out
+    row:user_id,label:"User" do |appoint|
+      link_to appoint.user.email,admin_user_path(appoint.user.id)
+    end
     row:status
     row:timeslot,label:"Appoointment" do |appoint|
       "#{Time.parse(appoint.slot.start_time).strftime("%I:%M %p")} to #{Time.parse(appoint.slot.end_time).strftime("%H:%M:%S")}"

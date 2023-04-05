@@ -4,6 +4,16 @@ class Appointment < ApplicationRecord
   belongs_to :service
   belongs_to :slot
 
+  after_save :update_status
+  
+  def update_status
+    if self.check_in < Date.current && self.status == "pending"
+      self.update(status: "cancelled")
+    end
+  end
+
+
+
   has_many :bookings, dependent: :delete_all
   validates_presence_of :check_in,:check_out
   # validates :status,presence:true

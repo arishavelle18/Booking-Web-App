@@ -7,6 +7,11 @@ ActiveAdmin.register Category do
   #
   permit_params :name, :description, :image, :admin_user_id 
 
+  filter :name, filters: [:contains]
+  filter :description, filters: [:contains]
+  filter :admin_user_id, as: :select, collection: AdminUser.all.map { |user| [user.email, user.id] }
+
+
   # show 
   show do
     attributes_table do
