@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   delete "cart/:id/delete" => "cart#destroy", as:"cart_delete"
   get "cart/:id/delete" => "cart#destroy"
   get "cart/:id/cancel" => "cart#cancel", as:"cart_cancel"
+  get "show-receipt/:id" => "cart#show",as:"cart_show"
 
 
   get  "add_address/" => "addresses#new",as:"address"

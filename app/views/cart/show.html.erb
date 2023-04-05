@@ -1,0 +1,64 @@
+<% provide(:title,"Booking Receipt") %>
+
+<h1>Booking Receipt
+<%= link_to "Go Cart",cart_path,class:"btn btn-outline-primary" %></h1>
+
+<div class="container">
+  <div class="row px-5 pt-5">
+    <div class="col-md-4 mt-4 mt-sm-0 card-container">
+      <div class="card text-justify product p-4 pt-5 border-0 h-100 rounded-0">
+            <h2>Service Information</h2>
+            <div class="card-body p-4 py-0 h-xs-440p">
+                <p><strong>Services : </strong> <%= @service.name %></p>
+                <p><strong>Description : </strong> <%=  @service.service_details.split[0,30].join(" ") +"..." %></p>
+                <p><strong>Location : </strong> <%= "#{@service.location.street} #{@service.location.barangay} #{@service.location.city} #{@service.location.province}" %></p>
+                <p><strong>Check In and Out :</strong><%= "#{@appoint.check_in} to #{@appoint.check_out}" %></p>
+                <p><strong>Time Slot : </strong> <%= "#{Time.parse(@appoint.slot.start_time).strftime('%I:%M %p')} to #{Time.parse(@appoint.slot.end_time).strftime('%I:%M %p')} " %></p>
+                <p><strong>Status : </strong> <%= @appoint.status.capitalize %></p>
+                
+                
+                <% if !@book.add_on_books[0].nil? %>
+                    <p><strong>Adds On : </strong ><%= "(₱#{number_with_delimiter(@book.add_on_books[0].amount)}) #{@book.add_on_books[0].name}"  %></p>
+                <% else %>
+                    <p><strong>Adds On : </strong>None</p>
+                <% end %>
+                
+                <p><strong>Booked Created : </strong><%= @appoint.created_at.strftime('%B %e, %Y %I:%M %p') %></p>
+            </div>  
+      
+        </div>
+    </div>
+     <div class="col-md-4 mt-4 mt-sm-0 card-container">
+      <div class="card text-justify product p-4 pt-5 border-0 h-100 rounded-0">
+            <h2>Payment Details</h2>
+            <div class="card-body p-4 py-0 h-xs-440p">
+                <p><strong>Payment Method : </strong><%= @book.payment.pay_method %></p>
+                <p><strong>Service Price : </strong>₱<%= @service.price %></p>
+                <% if !@book.add_on_books[0].nil? %>
+                    <p><strong>Adds On : </strong ><%= "(₱#{number_with_delimiter(@book.add_on_books[0].amount)}) #{@book.add_on_books[0].name}"  %></p>
+                    <p><strong>Amount Paid : </strong>₱<%= number_with_delimiter(@service.price * @book.add_on_books[0].amount) %></p>
+                <% else %>
+                    <p><strong>Adds On :</strong> None </p>
+                    <p><strong>Amount Paid : </strong>₱<%= @service.price %></p>
+                <% end %>
+                
+                <p><strong>Date Paid : </strong><%= @book.payment.created_at %></p>
+            </div>
+      
+        </div>
+    </div>
+    <div class="col-md-4 mt-4 mt-sm-0 card-container">
+      <div class="card text-justify product p-4 pt-5 border-0 h-100 rounded-0">
+            <h2>Customer Information</h2>
+            <div class="card-body p-4 py-0 h-xs-440p">
+                 <p><strong>Name : </strong><%= "#{@book.first_name.capitalize} #{@book.last_name.capitalize}" %></p>
+                 <p><strong>Email : </strong><%= @book.email %></p>
+                 <p><strong>Contact : </strong><%= @book.contact_number %></p>    
+
+            </div>
+      
+        </div>
+    </div>
+         <h3 class:"align-item-center">Thank you for choosing our service!</h3>
+  </div>
+</div>

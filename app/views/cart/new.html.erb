@@ -43,14 +43,14 @@
 
     
     <% if !@adds_ons.nil?%>
-    <%= f.fields_for :add_on_book do |add_on_book_form| %>
-    <% add_on =[] %>
-        <% @adds_ons.each do |adds_on| %>
-            <% add_on.push([adds_on.name,adds_on.id]) %>
+        <%= f.fields_for :add_on_book do |add_on_book_form| %>
+        <% add_on =[] %>
+            <% @adds_ons.each do |adds_on| %>
+                <% add_on.push([adds_on.name,adds_on.id]) %>
+            <% end %>
+        <%= add_on_book_form.select :adds_on_id, options_for_select(add_on), prompt: 'Select a time' %>
+        
         <% end %>
-    <%#= add_on_book_form.select :adds_on_id, options_for_select(add_on), prompt: 'Select a time' %>
-    
-    <% end %>
     <% end %>
     
 
