@@ -8,7 +8,7 @@ class Appointment < ApplicationRecord
   
   def update_status
     if self.check_in < Date.current && self.status == "pending"
-      self.update(status: "cancelled")
+      self.update(status: "cancel")
     end
   end
 
