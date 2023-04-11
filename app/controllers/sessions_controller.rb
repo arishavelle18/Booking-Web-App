@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
                 log_in @user
                 format.html{redirect_to services_path }
             else
+                @user = User.new()
                 flash.now[:danger] = "Invalid email or password!!!"
                 format.html {render :new,status: :unprocessable_entity}
             end
